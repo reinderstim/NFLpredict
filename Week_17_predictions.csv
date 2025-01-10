@@ -1,0 +1,51 @@
+Week,Chg,Player,Team,Opp,Att_Predicted,Yard,TD_Predicted,Rec_Predicted,Yard.1,TD.1_Predicted,FPts,Loc,Net_score,Outperformed
+17,,Ja'Marr Chase,CIN,DEN,0,0,0.0,7,91,0.8,13.9,Home,0,0
+17,,Justin Jefferson,MIN,GB,0,0,0.0,6,89,0.7,13.1,Home,0,0
+17,,Amon-Ra St. Brown,DET,SF,0,0,0.0,7,85,0.7,12.7,Away,0,0
+17,,Brian Thomas Jr.,JAC,TEN,1,5,0.0,6,84,0.6,12.5,Home,0,0
+17,,Mike Evans,TB,CAR,0,0,0.0,6,80,0.6,11.6,Home,0,0
+17,,Nico Collins,HOU,BAL,0,0,0.0,6,80,0.5,11.0,Home,0,0
+17,,Puka Nacua,LAR,ARI,0,0,0.0,6,80,0.5,11.0,Home,0,0
+17,,Tee Higgins,CIN,DEN,0,0,0.0,5,72,0.6,10.8,Home,0,0
+17,,Deebo Samuel,SF,DET,4,18,0.1,4,58,0.4,10.6,Home,0,0
+17,,Davante Adams,NYJ,BUF,0,0,0.0,6,75,0.5,10.5,Away,0,0
+17,,George Pickens,PIT,KC,0,0,0.0,5,75,0.5,10.5,Home,0,0
+17,,Terry McLaurin,WAS,ATL,0,0,0.0,5,68,0.6,10.4,Home,0,0
+17,,Courtland Sutton,DEN,CIN,0,0,0.0,6,74,0.5,10.4,Away,0,0
+17,,A.J. Brown,PHI,DAL,0,0,0.0,5,70,0.5,10.0,Home,0,0
+17,,Zay Flowers,BAL,HOU,0,0,0.0,6,70,0.5,10.0,Away,0,0
+17,,Jaxon Smith-Njigba,SEA,CHI,0,0,0.0,6,75,0.4,9.9,Away,0,0
+17,,Ladd McConkey,LAC,NE,0,0,0.0,6,74,0.4,9.8,Away,0,0
+17,,Jameson Williams,DET,SF,1,8,0.0,4,63,0.4,9.5,Away,0,0
+17,,Jauan Jennings,SF,DET,0,0,0.0,5,70,0.4,9.4,Home,0,0
+17,,Adam Thielen,CAR,TB,0,0,0.0,5,68,0.4,9.2,Away,0,0
+17,,Malik Nabers,NYG,IND,0,0,0.0,5,66,0.4,9.0,Home,0,0
+17,,Xavier Worthy,KC,PIT,2,8,0.1,4,58,0.3,9.0,Away,0,0
+17,,Drake London,ATL,WAS,0,0,0.0,6,65,0.4,8.9,Away,0,0
+17,,Calvin Ridley,TEN,JAC,0,0,0.0,5,65,0.4,8.9,Away,0,0
+17,,Jordan Addison,MIN,GB,0,0,0.0,5,63,0.4,8.7,Home,0,0
+17,,Marvin Harrison Jr.,ARI,LAR,0,0,0.0,5,63,0.4,8.7,Away,0,0
+17,,Josh Downs,IND,NYG,0,0,0.0,6,67,0.3,8.5,Away,0,0
+17,,Khalil Shakir,BUF,NYJ,0,0,0.0,5,60,0.4,8.4,Home,0,0
+17,,Jakobi Meyers,LV,NO,0,0,0.0,6,65,0.3,8.3,Away,0,0
+17,,D.J. Moore,CHI,SEA,0,0,0.0,5,65,0.3,8.3,Home,0,0
+17,,Keenan Allen,CHI,SEA,0,0,0.0,5,64,0.3,8.2,Home,0,0
+17,,Jayden Reed,GB,MIN,1,7,0.0,5,57,0.3,8.2,Away,0,0
+17,,Darnell Mooney,ATL,WAS,0,0,0.0,5,63,0.3,8.1,Away,0,0
+17,,Jalen McMillan,TB,CAR,0,0,0.0,5,62,0.3,8.0,Home,0,0
+17,,Garrett Wilson,NYJ,BUF,0,0,0.0,5,61,0.3,7.9,Away,0,0
+17,,Cooper Kupp,LAR,ARI,0,0,0.0,5,60,0.3,7.8,Home,0,0
+17,,DeVonta Smith,PHI,DAL,0,0,0.0,4,60,0.3,7.8,Home,0,0
+17,,Michael Pittman Jr.,IND,NYG,0,0,0.0,5,59,0.3,7.7,Away,0,0
+17,,Quentin Johnston,LAC,NE,0,0,0.0,4,55,0.3,7.3,Away,0,0
+17,,DK Metcalf,SEA,CHI,0,0,0.0,4,55,0.3,7.3,Away,0,0
+17,,Romeo Doubs,GB,MIN,0,0,0.0,5,54,0.3,7.2,Away,0,0
+17,,Dontayvion Wicks,GB,MIN,0,0,0.0,4,53,0.3,7.1,Away,0,0
+17,,Amari Cooper,BUF,NYJ,0,0,0.0,4,52,0.3,7.0,Home,0,0
+17,,Tyreek Hill,MIA,CLE,0,0,0.0,4,52,0.3,7.0,Away,0,0
+17,,Jerry Jeudy,CLE,MIA,0,0,0.0,4,52,0.3,7.0,Home,0,0
+17,,Calvin Austin,PIT,KC,2,11,0.0,4,45,0.2,6.8,Home,0,0
+17,,DeAndre Hopkins,KC,PIT,0,0,0.0,4,50,0.3,6.8,Away,0,0
+17,,Marquez Valdes-Scantling,NO,LV,0,0,0.0,3,50,0.3,6.8,Home,0,0
+17,,Jalen Coker,CAR,TB,0,0,0.0,4,46,0.3,6.4,Away,0,0
+17,,Wan'Dale Robinson,NYG,IND,0,0,0.0,5,50,0.2,6.2,Home,0,0
