@@ -6,11 +6,17 @@ from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, classification_report
 import numpy as np
 import pickle
+from sklearn.model_selection import GridSearchCV
+from xgboost import plot_importance
 
 merged_stats_file = "merged_stats_all_years.csv"
 merged_stats = pd.read_csv(merged_stats_file)
-# Add a rolling average of FPts as a trend feature
-merged_stats['FPts_RollingAvg'] = merged_stats.groupby('Player')['FPts'].transform(lambda x: x.rolling(window=3, min_periods=1).mean())
+merged_stats['Interaction_Cat'] = merged_stats['Loc'] + "_" + merged_stats['Opp']
+merged_stats['Lag1_FPts'] = merged_stats.groupby('Player')['Pts*'].shift(1)
+merged_stats['Lag2_FPts'] = merged_stats.groupby('Player')['Pts*'].shift(2)
+merged_stats['FPts_RollingAvg'] = merged_stats.groupby('Player')['Pts*'] \
+    .transform(lambda x: x.shift().rolling(window=5, min_periods=1).mean())
+merged_stats['Interaction_Num'] = merged_stats['Lag1_FPts'] * merged_stats['FPts_RollingAvg']
 
 
 print("Dataset head:")
@@ -19,22 +25,20 @@ print(merged_stats.head())
 merged_stats['Outperformed'] = (merged_stats['Net_score'] > 0).astype(int)
 
 
-categorical_features = ['Team', 'Opp', 'Loc']
-numeric_features = ['Att_Predicted', 'Yard', 'TD_Predicted', 'Rec_Predicted', 'Yard.1', 'TD.1_Predicted']
+categorical_features = ['Player','Team', 'Opp', 'Loc', 'Interaction_Cat']
+numeric_features = ['Interaction_Num', 'Rec_Predicted', 'Yard.1', 'TD.1_Predicted', "FPts_RollingAvg"]
+numeric_features += ['Lag1_FPts', 'Lag2_FPts']
 all_features = categorical_features + numeric_features
 target = 'Outperformed'
 
-# Ensure all columns exist in the dataset
 missing_columns = [col for col in all_features + [target] if col not in merged_stats.columns]
 if missing_columns:
     print(f"Missing columns: {missing_columns}")
     raise ValueError("Some required columns are missing in the dataset.")
 
-# Fill missing numeric values with 0 (if appropriate) and drop rows with missing critical target values
+# Fill missing numeric values with 0
 merged_stats[numeric_features] = merged_stats[numeric_features].fillna(0)
 merged_stats = merged_stats.dropna(subset=[target])
-
-# Print dataset size after relaxed filtering
 print(f"Dataset size after relaxed filtering: {merged_stats.shape}")
 print(f"Outperformed Stats: {pd.value_counts(merged_stats['Outperformed'])}")
 
@@ -60,11 +64,8 @@ print(f"Feature matrix shape after relaxed filtering: {X.shape}, Target vector s
 if X.shape[0] == 0:
     raise ValueError("Filtered dataset has no rows remaining. Check data preprocessing steps.")
 
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25)
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-
-# Print training and testing set sizes
 print(f"Training set size: {X_train.shape}, Test set size: {X_test.shape}")
 
 # Calculate scale_pos_weight
@@ -72,14 +73,30 @@ class_0_count = (y == 0).sum()
 class_1_count = (y == 1).sum()
 scale_pos_weight = class_0_count / class_1_count
 
-# Initialize the XGBoost Classifier with class weighting
-model = XGBClassifier(use_label_encoder=False, eval_metric="logloss", scale_pos_weight=scale_pos_weight)
+
+param_grid = {
+    'learning_rate': [0.01, 0.05, 0.1],
+    'max_depth': [13, 15],
+    'n_estimators': [300, 400, 500],
+    'subsample': [0.7, 0.8],
+    'colsample_bytree': [0.8, 1.0],
+    'scale_pos_weight': [scale_pos_weight]
+}
+grid_search = GridSearchCV(
+    estimator=XGBClassifier(eval_metric="logloss"),
+    param_grid=param_grid,
+    scoring='accuracy',
+    cv=5,
+    verbose=1
+)
+grid_search.fit(X_train, y_train)
+print(f"Best Parameters: {grid_search.best_params_}")
+model = grid_search.best_estimator_
+#model = XGBClassifier(eval_metric="logloss", scale_pos_weight=scale_pos_weight)
 
 
 # Train the model
 model.fit(X_train, y_train)
-
-# Make predictions
 y_pred = model.predict(X_test)
 
 # Evaluate the model
@@ -91,6 +108,8 @@ print(classification_report(y_test, y_pred))
 # Save the model
 model.save_model("player_outperformance_model.json")
 print("Model saved to 'player_outperformance_model.json'")
+
+plot_importance(model)
 
 
 

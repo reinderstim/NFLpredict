@@ -9,6 +9,8 @@ import pickle
 
 merged_stats_file = "merged_stats_all_years.csv"
 merged_stats = pd.read_csv(merged_stats_file)
+merged_stats['Lag1_FPts'] = merged_stats.groupby('Player')['Pts*'].shift(1)
+merged_stats['Lag2_FPts'] = merged_stats.groupby('Player')['Pts*'].shift(2)
 
 print("Dataset head:")
 print(merged_stats.head())
@@ -17,21 +19,20 @@ merged_stats['Outperformed'] = (merged_stats['Net_score'] > 0).astype(int)
 
 
 categorical_features = ['Team', 'Opp', 'Loc']
-numeric_features = ['Att_Predicted', 'Yard', 'TD_Predicted', 'Rec_Predicted', 'Yard.1', 'TD.1_Predicted']
+numeric_features = ['Rec_Predicted', 'Yard.1', 'TD.1_Predicted']
+numeric_features += ['Lag1_FPts', 'Lag2_FPts']
 all_features = categorical_features + numeric_features
 target = 'Outperformed'
 
-# Ensure all columns exist in the dataset
+
 missing_columns = [col for col in all_features + [target] if col not in merged_stats.columns]
 if missing_columns:
     print(f"Missing columns: {missing_columns}")
     raise ValueError("Some required columns are missing in the dataset.")
 
-# Fill missing numeric values with 0 (if appropriate) and drop rows with missing critical target values
+# Fill missing numeric values with 0
 merged_stats[numeric_features] = merged_stats[numeric_features].fillna(0)
 merged_stats = merged_stats.dropna(subset=[target])
-
-# Print dataset size after relaxed filtering
 print(f"Dataset size after relaxed filtering: {merged_stats.shape}")
 print(f"Outperformed Stats: {pd.value_counts(merged_stats['Outperformed'])}")
 
@@ -58,19 +59,13 @@ if X.shape[0] == 0:
     raise ValueError("Filtered dataset has no rows remaining. Check data preprocessing steps.")
 
 
-# Split the data into training and testing sets
+# Split the data
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
-
-# Print training and testing set sizes
 print(f"Training set size: {X_train.shape}, Test set size: {X_test.shape}")
 
-# Initialize the XGBoost Classifier
-model = XGBClassifier(use_label_encoder=False, eval_metric="logloss")
 
-# Train the model
+model = XGBClassifier(eval_metric="logloss")
 model.fit(X_train, y_train)
-
-# Make predictions
 y_pred = model.predict(X_test)
 
 
